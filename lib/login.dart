@@ -99,8 +99,8 @@ class LoginPageState extends State<LoginPage>{
       body: new Center(
         child: new Column(
           children: <Widget>[
-            _inputTextField("User name: ", userNameController),
-            _inputTextField("Password: ", passwordController),
+            _inputTextField("User name: ", userNameController, false),
+            _inputTextField("Password: ", passwordController, true),
             buttonForm()
           ],
         ),
@@ -117,12 +117,13 @@ class LoginPageState extends State<LoginPage>{
     );
   }
 
-  TextField _inputTextField(String placholder, TextEditingController controller){
+  TextField _inputTextField(String placholder, TextEditingController controller, bool obscureText){
     return TextField(
       textAlign: TextAlign.left,
       controller: controller,
+      obscureText: obscureText,
       decoration: InputDecoration(
-        labelText: placholder
+        labelText: placholder,
       ),
     );
   }

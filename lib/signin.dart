@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'user_model.dart';
 
 class SignIn extends StatelessWidget{
   @override
@@ -34,9 +34,9 @@ class SignInPageSate extends State<SignInPage>{
       ),
       body: new Column(
         children: <Widget>[
-          _inputTextField("User name", usernameController),
-          _inputTextField("Password", passwordController),
-          _inputTextField("Retype password", retypePasswordController),
+          _inputTextField("User name", usernameController, false),
+          _inputTextField("Password", passwordController, true),
+          _inputTextField("Retype password", retypePasswordController, true),
           _buttonForm(),
         ],
       ),
@@ -52,7 +52,19 @@ class SignInPageSate extends State<SignInPage>{
 
     if(!_checkIsSamePassword(password, retype)){
       print("Please check password again");
+    }else{
+      _handleStorageNewUser(username, password);
     }
+
+  }
+
+  void _handleStorageNewUser(String username, String password) async {
+    var jsonObject = {
+      'username': username,
+      'password' : password
+    };
+
+    print(jsonObject);
 
 
   }
@@ -78,12 +90,14 @@ class SignInPageSate extends State<SignInPage>{
     );
   }
 
-  TextField _inputTextField(String placholder, TextEditingController controller){
+  TextField _inputTextField(String placholder, TextEditingController controller, bool obscureText){
     return TextField(
       textAlign: TextAlign.left,
       controller: controller,
+      obscureText: obscureText,
       decoration: InputDecoration(
-          labelText: placholder
+          labelText: placholder,
+
       ),
     );
   }

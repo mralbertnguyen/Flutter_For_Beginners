@@ -22,6 +22,7 @@ class WelcomePageState extends State<WelcomePage>{
         )
     );
   }
+
 }
 
 class WelcomePage extends StatefulWidget{
