@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:developer';
-import 'main.dart';
+import 'home.dart';
+import 'signin.dart';
+
 void main() => runApp(Login());
 
 class Login extends StatelessWidget{
@@ -11,7 +12,6 @@ class Login extends StatelessWidget{
       home : new LoginPage(title: "hello")
     );
   }
-
 }
 
 class LoginPage extends StatefulWidget{
@@ -29,49 +29,54 @@ class LoginPageState extends State<LoginPage>{
   // Create controller
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
-
   // Account default
   final String userNameDefault = 'admin';
   final String passwordDefault = 'admin';
 
-  // Function check login
-  void _checkInfoLogin(){
-
-    final String _username = userNameController.text;
-    final String _password = passwordController.text;
-
-    if(checkNull(_username, _password)){
-      print("Null");
-    }
-
-    if(!checkIsCorrect(_username, _password)){
-      print("Not Correct");
-    }else{
-      loginSucess();
-    }
-
-  }
-
-  bool checkNull (String username, String password){
-    if(username.length == 0 && password.length == 0){
-      return true;
-    }
-    return false;
-  }
-
-  bool checkIsCorrect(String username, String password){
-    if(username.compareTo(userNameDefault) != 0 && password.compareTo(passwordDefault) != 0){
-      return false;
-    }
-    return true;
-  }
-
-
-  void loginSucess(){
+  // handle sigin
+  void _signInNewAccount(){
     // change to main screen
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MyApp()),
+      MaterialPageRoute(builder: (context) => SignIn()),
+    );
+  }
+  // Function check login
+  void _checkInfoLogin(){
+    final String _username = userNameController.text;
+    final String _password = passwordController.text;
+
+    // If user name not null and correct with account default then accept login
+    if(!_checkNull(_username, _password)){
+      if(_checkIsCorrect(_username, _password)){
+        _loginSucess();
+      }
+    }else {
+      print("Please check user name, password again");
+    }
+  }
+
+  bool _checkNull (String username, String password){
+    if(username.isEmpty && password.isEmpty){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  bool _checkIsCorrect(String username, String password){
+    if(username.compareTo(userNameDefault) != 0 && password.compareTo(passwordDefault) != 0){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  void _loginSucess(){
+    // change to main screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
     );
   }
 
@@ -88,18 +93,33 @@ class LoginPageState extends State<LoginPage>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-      body: new Column(
-        children: <Widget>[
-          inputTextField("User Name: ", userNameController),
-          inputTextField("Password: ", passwordController),
-          buttonFrom("Login"),
-        ],
+      appBar: AppBar(
+        title: new Text("Login"),
+      ),
+      body: new Center(
+        child: new Column(
+          children: <Widget>[
+            _inputTextField("User name: ", userNameController),
+            _inputTextField("Password: ", passwordController),
+            buttonForm()
+          ],
+        ),
       )
     );
   }
 
-  TextField inputTextField(String placholder, TextEditingController controller){
+  Row buttonForm() {
+    return Row(
+      children: <Widget>[
+        _button("Log in", _checkInfoLogin),
+        _button("Sign up", _signInNewAccount)
+      ],
+    );
+  }
+
+  TextField _inputTextField(String placholder, TextEditingController controller){
     return TextField(
+      textAlign: TextAlign.left,
       controller: controller,
       decoration: InputDecoration(
         labelText: placholder
@@ -107,36 +127,13 @@ class LoginPageState extends State<LoginPage>{
     );
   }
 
- RaisedButton buttonFrom (String btnTitle){
+ RaisedButton _button (String btnTitle, Function function){
     return RaisedButton(
       onPressed: (){
-        _checkInfoLogin();
+        function();
       },
       child: new Text(btnTitle),
     );
   }
-
-
-  AlertDialog alertNotification(String title, String content){
-    return AlertDialog(
-      title: new Text(title),
-      content: new Text(content),
-    );
-  }
-
 }
 
-
-//class Main extends StatelessWidget{
-//  @override
-//  Widget build(BuildContext context) {
-//    // TODO: implement build
-//    return MaterialApp(
-//        home : new Scaffold(
-//          body: new Center(
-//            child: new Text("Home page"),
-//          ),
-//        )
-//    );
-//  }
-//}
