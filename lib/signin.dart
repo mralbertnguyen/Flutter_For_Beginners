@@ -44,7 +44,6 @@ class SignInPageSate extends State<SignInPage>{
   }
 
   void _finishSignIn(){
-
     // Get user name and password
     final String username = usernameController.text;
     final String password = passwordController.text;
@@ -63,10 +62,7 @@ class SignInPageSate extends State<SignInPage>{
       'username': username,
       'password' : password
     };
-
     print(jsonObject);
-
-
   }
 
   bool _checkIsSamePassword(String password, String retype){
@@ -97,7 +93,6 @@ class SignInPageSate extends State<SignInPage>{
       obscureText: obscureText,
       decoration: InputDecoration(
           labelText: placholder,
-
       ),
     );
   }
