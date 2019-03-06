@@ -22,7 +22,7 @@ class User_Model{
   // decode
   factory User_Model.fromMap(Map<String, dynamic> json) => new User_Model(
     username: json["username"],
-    password: json["[password"],
+    password: json["password"],
   );
 
   // Encode

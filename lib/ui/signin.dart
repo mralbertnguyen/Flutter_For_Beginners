@@ -47,18 +47,20 @@ class SignInPageSate extends State<SignInPage>{
     );
   }
 
+
+
   void _finishSignIn(){
     // Get user name and password
-    final String username = usernameController.text;
-    final String password = passwordController.text;
+    final String _username = usernameController.text;
+    final String _password = passwordController.text;
 
     final String retype = retypePasswordController.text;
 
-    if(!_checkIsSamePassword(password, retype)){
+    if(!_checkIsSamePassword(_password, retype)){
       print("Please check password again");
       _showDialog("Error","Please check password again");
     }else{
-      _handleStorageNewUser(username, password);
+      _handleStorageNewUser(_username, _password);
     }
 
   }
@@ -67,33 +69,23 @@ class SignInPageSate extends State<SignInPage>{
     // Cast data
     var object = User_Model(username: username, password: password);
 
+    // It return a result if find object have same username
+    // null if can't find
     var userExist = await DBProvider.db.getUser(username);
 
     if(userExist == null){
       var insertResult = await DBProvider.db.newUser(object);
-      _showDialog("Insert", "Insert");
+
+      // Return index of object
+      print("Return by inserter "+ insertResult.toString());
+
+//      _showDialog("Insert", insertResult);
     }else{
       _showDialog("Existed", "Existed");
     }
 
-
-//    var insertResult = await DBProvider.db.newUser(object);
-//    _showDialog("insertResult", "" + insertResult);
-//    // Check user existed
-//    if( != null){
-//      _showDialog("Existed", "User name existed on database, please choose another username");
-//    }else{
-//      // Insert new user
-//      var result = await DBProvider.db.newUser(object);
-//      print(result);
-//    }
-
   }
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
 
-    return directory.path;
-  }
   bool _checkIsSamePassword(String password, String retype){
     // Compare password and retype password
     if(password.compareTo(retype) == 0){

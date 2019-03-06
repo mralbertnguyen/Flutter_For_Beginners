@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/home.dart';
 import 'package:flutter_app/ui/signin.dart';
 
+import './resources/database.dart';
+import './models/user_model.dart';
+
+import 'dart:async';
 void main() => runApp(Login());
 
 class Login extends StatelessWidget{
@@ -42,37 +46,56 @@ class LoginPageState extends State<LoginPage>{
     );
   }
   // Function check login
-  void _checkInfoLogin(){
+  void _checkInfoLogin() async{
     final String _username = userNameController.text;
     final String _password = passwordController.text;
 
-    // If user name not null and correct with account default then accept login
-    if(!_checkNull(_username, _password)){
-      if(_checkIsCorrect(_username, _password)){
-        _loginSucess();
+    if(_checkIsNotNull(_username, _password)){
+      var resultCheckExisted = await _checkIsExisted(_username, _password);
+
+      Map parsedJson = resultCheckExisted.toJson();
+      String parsedPassword = parsedJson.values.toList()[1];
+
+      if(resultCheckExisted != null){
+        if(_checkIsCorrect(_password,parsedPassword)){
+          _loginSucess();
+        }else{
+          print("Wrong password");
+        }
+      }else{
+        print("Result: null");
       }
-    }else {
-      print("Please check user name, password again");
+
     }
   }
 
-  bool _checkNull (String username, String password){
+  bool _checkIsNotNull (String username, String password){
     if(username.isEmpty && password.isEmpty){
-      return true;
-    }else{
       return false;
     }
+
+    return true;
   }
 
-  bool _checkIsCorrect(String username, String password){
-    if(username.compareTo(userNameDefault) != 0 && password.compareTo(passwordDefault) != 0){
-      return false;
-    }else{
+ Future<User_Model> _checkIsExisted(String username, String pwd) async {
+
+    User_Model model = new User_Model();
+
+    model = await DBProvider.db.getUser(username);
+
+    return model;
+  }
+  bool _checkIsCorrect(String currentPwd, String pwdGetInDatabase){
+    if(currentPwd.compareTo(pwdGetInDatabase) == 0){
       return true;
     }
+    return false;
   }
+
+
 
   void _loginSucess(){
+    print("Login success");
     // change to main screen
     Navigator.push(
       context,
@@ -111,7 +134,7 @@ class LoginPageState extends State<LoginPage>{
   Row buttonForm() {
     return Row(
       children: <Widget>[
-        _button("Log in", _checkInfoLogin),
+        _button("Log in",  _checkInfoLogin),
         _button("Sign up", _signInNewAccount)
       ],
     );

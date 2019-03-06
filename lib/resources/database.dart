@@ -30,16 +30,16 @@ class DBProvider{
 
   static final String queryCreateDataTable =
       "CREATE TABLE $dataTableName ("
-      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-      "title VARCHAR(50),"
+      "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+      "title VARCHAR(50), "
       "desc VARCHAR(255) "
       ")"
   ;
 
   static final String queryCreateUserTable  =
-      "CREATE TABLE $userTableName ("
-      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-      "username VARCHAR(15),"
+      "CREATE TABLE $userTableName ( "
+      "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+      "username VARCHAR(15), "
       "password VARCHAR(255) "
       ")"
   ;
@@ -50,27 +50,29 @@ class DBProvider{
     //Set db path file
     String path = join(directory.path , "Database.db");
 
-    return await openDatabase(path, version: 1 ,onOpen: (db) {},
-      onCreate: (Database db , int version) async {
-        await db.execute(queryCreateUserTable);
-      });
+    // open the database
+    Database creatingDatabase = await openDatabase(path, version: 1,
+        onCreate: (Database db, int version) async {
+          // When creating the db, create the table
+          await db.execute(queryCreateUserTable);
+        });
+    return creatingDatabase;
   }
 
   newUser(User_Model user) async{
-
     final String queryInsertNewUser = 'INSERT INTO  $userTableName ('
-        'id, '
         'username, '
         'password)'
-        ' VALUES (?,?,?) ';
+        ' VALUES (?,?) ';
     final db = await database;
-
      //Insert new user into table
       var insertNewUser = await db.rawInsert(
-        queryInsertNewUser, [ null, user.username, user.password]
+        queryInsertNewUser, [user.username, user.password]
       );
+
     return insertNewUser;
   }
+
 
   Future<List<User_Model>> getAllUser() async{
 
@@ -86,8 +88,7 @@ class DBProvider{
   getUser(String username) async{
     final db = await database;
 
-    var res = await db.query(userTableName, where: "username = ?", whereArgs: [username]);
-
+    var res = await db.query(userTableName,where: "username = ?", whereArgs: [username]);
 
     print(res.isNotEmpty ? User_Model.fromMap(res.first) : null);
 
