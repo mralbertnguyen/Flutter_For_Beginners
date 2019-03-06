@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/models/user_model.dart';
-
+import 'package:path_provider/path_provider.dart';
 class SignIn extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -71,9 +71,14 @@ class SignInPageSate extends State<SignInPage>{
 
     // Notify register success
     _showDialog("Success", "Register was Success");
+    print(_localPath);
 
   }
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
 
+    return directory.path;
+  }
   bool _checkIsSamePassword(String password, String retype){
     // Compare password and retype password
     if(password.compareTo(retype) == 0){

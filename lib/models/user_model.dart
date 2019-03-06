@@ -8,10 +8,16 @@ class User_Model{
   this.password
   );
 
+  // Encode
   User_Model.fromJson(Map<String, dynamic> json)
       : username = json['username'],
         password = json['password'];
 
+
+  String get _username => username;
+  String get _password => password;
+
+  // Decode
   Map<String, dynamic> toJson() =>
       {
         'username': username,

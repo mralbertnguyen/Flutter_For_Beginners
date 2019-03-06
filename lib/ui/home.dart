@@ -13,7 +13,6 @@ class Home extends StatelessWidget{
     );
   }
 
-
   final listViewContainer = Container(
     child: ListView.builder(
       scrollDirection: Axis.vertical,
@@ -40,5 +39,5 @@ class Home extends StatelessWidget{
     title: new Text("title"),
     subtitle: new Text("subtitle"),
   );
-  
+
 }
