@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/models/user_model.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../resources/database.dart';
+
+import 'dart:async';
+
+
 class SignIn extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -57,21 +63,27 @@ class SignInPageSate extends State<SignInPage>{
 
   }
 
-  void _handleStorageNewUser(String username, String password) async {
+   _handleStorageNewUser(String username, String password) async {
+    var object = User_Model(username: username, password: password);
 
-    Map<String, dynamic> content = new Map();
+    _showDialog("Notify", 'Username: '+ object.username + '\n' + 'Password: '+ object.password);
 
-    var content1 = {'username': username};
-    var content2 = {'password': password};
+    await DBProvider.db.newUser(object);
 
-    content.addAll(content1);
-    content.addAll(content2);
 
-    print(content);
-
-    // Notify register success
-    _showDialog("Success", "Register was Success");
-    print(_localPath);
+//    Map<String, dynamic> content = new Map();
+//
+//    var content1 = {'username': username};
+//    var content2 = {'password': password};
+//
+//    content.addAll(content1);
+//    content.addAll(content2);
+//
+//    print(content);
+//
+//    // Notify register success
+//    _showDialog("Success", "Register was Success");
+//    print(_localPath);
 
   }
   Future<String> get _localPath async {
