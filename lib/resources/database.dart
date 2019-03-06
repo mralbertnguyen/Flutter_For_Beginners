@@ -67,7 +67,7 @@ class DBProvider{
 
      //Insert new user into table
       var insertNewUser = await db.rawInsert(
-        queryInsertNewUser, [ user.username, user.password]
+        queryInsertNewUser, [ null, user.username, user.password]
       );
     return insertNewUser;
   }
@@ -83,6 +83,16 @@ class DBProvider{
 
   }
 
+  getUser(String username) async{
+    final db = await database;
+
+    var res = await db.query(userTableName, where: "username = ?", whereArgs: [username]);
+
+
+    print(res.isNotEmpty ? User_Model.fromMap(res.first) : null);
+
+    return res.isNotEmpty ? User_Model.fromMap(res.first) : null;
+  }
 }
 
 

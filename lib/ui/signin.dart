@@ -64,26 +64,29 @@ class SignInPageSate extends State<SignInPage>{
   }
 
    _handleStorageNewUser(String username, String password) async {
+    // Cast data
     var object = User_Model(username: username, password: password);
 
-    _showDialog("Notify", 'Username: '+ object.username + '\n' + 'Password: '+ object.password);
+    var userExist = await DBProvider.db.getUser(username);
 
-    await DBProvider.db.newUser(object);
+    if(userExist == null){
+      var insertResult = await DBProvider.db.newUser(object);
+      _showDialog("Insert", "Insert");
+    }else{
+      _showDialog("Existed", "Existed");
+    }
 
 
-//    Map<String, dynamic> content = new Map();
-//
-//    var content1 = {'username': username};
-//    var content2 = {'password': password};
-//
-//    content.addAll(content1);
-//    content.addAll(content2);
-//
-//    print(content);
-//
-//    // Notify register success
-//    _showDialog("Success", "Register was Success");
-//    print(_localPath);
+//    var insertResult = await DBProvider.db.newUser(object);
+//    _showDialog("insertResult", "" + insertResult);
+//    // Check user existed
+//    if( != null){
+//      _showDialog("Existed", "User name existed on database, please choose another username");
+//    }else{
+//      // Insert new user
+//      var result = await DBProvider.db.newUser(object);
+//      print(result);
+//    }
 
   }
   Future<String> get _localPath async {
