@@ -40,24 +40,28 @@ class SignInPageSate extends State<SignInPage>{
       appBar: AppBar(
         title: new Text("Sign in"),
       ),
-      body: new Column(
-        children: <Widget>[
-          _inputTextField("User name", usernameController, false),
-          _inputTextField("Password", passwordController, true),
-          _inputTextField("Retype password", retypePasswordController, true),
-          _buttonForm(),
-        ],
+      body: Builder(
+          builder: (context) =>
+          new Column(
+            children: <Widget>[
+              _inputTextField("User name", usernameController, false),
+              _inputTextField("Password", passwordController, true),
+              _inputTextField("Retype password", retypePasswordController, true),
+              _buttonForm(context),
+            ],
+          ),
       ),
+
     );
   }
 
   /*
   * Widgets
   * */
-  Widget _buttonForm(){
+  Widget _buttonForm(BuildContext formContext){
     return new Row(
       children: <Widget>[
-        _button("OK", _finishSignIn),
+        _button("OK", finishSignIn ),
         _button("Cancel",_cancel)
       ],
     );
@@ -86,7 +90,7 @@ class SignInPageSate extends State<SignInPage>{
   /*
   * Functions to handle business
   * */
-  void _finishSignIn(){
+  finishSignIn(){
     // Get user name and password
     final String _username = usernameController.text;
     final String _password =  widgetController.WidgetAndFunctionState().generateMd5(passwordController.text);
@@ -94,7 +98,7 @@ class SignInPageSate extends State<SignInPage>{
 
     if(!_checkIsSamePassword(_password, retype)){
       print("Please check password again");
-      _showDialog("Error","Please check password again");
+      widgetController.WidgetAndFunctionState().customDialog("Error","Please check password again",context);
     }else{
       _handleStorageNewUser(_username, _password);
     }
@@ -112,12 +116,11 @@ class SignInPageSate extends State<SignInPage>{
     if(userExist == null){
 //      await DBProvider.db.newUser(object);
     bloc.addUser(object);
-
-      // Return index of object
-      // If is int parameter => created new user
-
+    // Show snackbar
+    // Back previous screen
+    Navigator.of(context).pop();
     }else{
-      _showDialog("Existed", "Existed");
+      widgetController.WidgetAndFunctionState().customDialog("Existed", "Existed",context);
     }
 
   }
@@ -132,26 +135,11 @@ class SignInPageSate extends State<SignInPage>{
 
   void _cancel(){
     print("Cancel");
+    // Back previous screen
     Navigator.of(context).pop();
   }
 
-  void _showDialog(String title, String content){
-    showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            title: new Text(title),
-            content: new Text(content),
-            actions: <Widget>[
-              new FlatButton(onPressed: (){
-                Navigator.of(context).pop();
-              },
-                  child: new Text("Close"))
-            ],
-          );
-        }
-    );
-  }
+
 
 
 }

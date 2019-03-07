@@ -12,18 +12,6 @@ import 'dart:async';
 
 void main() => runApp(Login());
 
-class UserNameValidate{
-  static String validate(String username){
-    return username.isEmpty ? 'Please type username' : null;
-  }
-}
-
-class PasswordValidate{
-  static String validate(String pwd){
-    return pwd.isEmpty ? 'Please type password' : null;
-  }
-}
-
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,6 +34,7 @@ class LoginPageState extends State<LoginPage> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final widgetPage = widgetController.WidgetAndFunctionState();
 
   bool isLogin;
 
@@ -59,7 +48,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void initState() async{
+  void initState() {
     // TODO: implement initState
     checkIsLogin();
   }
@@ -78,7 +67,8 @@ class LoginPageState extends State<LoginPage> {
     // Check user login or not
     final String _username = userNameController.text;
     // Decode password with MD5
-    final String _password = widgetController.WidgetAndFunctionState().generateMd5(passwordController.text);
+    final String _password = widgetController.WidgetAndFunctionState()
+        .generateMd5(passwordController.text);
     if (checkIsNotNull(_username, _password)) {
       var resultCheckExisted = await checkIsExisted(_username);
       if (resultCheckExisted != null) {
@@ -90,16 +80,20 @@ class LoginPageState extends State<LoginPage> {
           if (checkIsCorrect(_password, parsedPassword)) {
             rememberLogin();
           } else {
-            print("Wrong password");
+            widgetController.WidgetAndFunctionState().customDialog(
+                "Error", "Check username and password again!", context);
           }
         } else {
-          print("Result: null");
+          widgetController.WidgetAndFunctionState().customDialog(
+              "Error", "Check username and password again!", context);
         }
       } else {
-        print("Please create User");
+        widgetController.WidgetAndFunctionState()
+            .customDialog("Error", "User not exist!", context);
       }
     } else {
-      print("User name and password null");
+      widgetController.WidgetAndFunctionState()
+          .customDialog("Error", "Please type username and password", context);
     }
   }
 
@@ -128,7 +122,6 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void loginSuccess() {
-    print("Login success");
     // change to main screen
     Navigator.pushAndRemoveUntil(
         context,
@@ -158,45 +151,54 @@ class LoginPageState extends State<LoginPage> {
     return new Scaffold(
         appBar: AppBar(
           title: new Text("Login"),
+          backgroundColor: widgetPage.mainColor,
         ),
         body: new Center(
+            child: new Theme(
+          data: new ThemeData(
+            primaryColor: widgetPage.mainColor,
+            primaryColorDark: Colors.white,
+          ),
           child: new Column(
             children: <Widget>[
-              _inputTextField("User name: ", userNameController, false),
-              _inputTextField("Password: ", passwordController, true),
+              inputTextField("User name", userNameController, false),
+              inputTextField("Password: ", passwordController, true),
               buttonForm()
             ],
           ),
-        ));
+        )));
   }
 
-  Row buttonForm() {
-    return Row(
-      children: <Widget>[
-        _button("Log in", checkInfoLogin),
-        _button("Sign up", signInNewAccount)
-      ],
-    );
-  }
-
-  TextField _inputTextField(
-    String placholder, TextEditingController controller, bool obscureText) {
-    return TextField(
-      textAlign: TextAlign.left,
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        labelText: placholder,
+  Container buttonForm() {
+    return Container(
+      margin: const EdgeInsets.only(top: 10.0),
+      child: Column(
+        children: <Widget>[
+          widgetPage.button("Log in", checkInfoLogin),
+          widgetPage.button("Sign up", signInNewAccount)
+        ],
       ),
     );
   }
 
-  RaisedButton _button(String btnTitle, Function function) {
-    return RaisedButton(
-      onPressed: () {
-        function();
-      },
-      child: new Text(btnTitle),
+  Container inputTextField(
+      String placholder, TextEditingController controller, bool obscureText) {
+    return Container(
+      width: 300,
+      height: 70,
+      margin: const EdgeInsets.only(
+        top: 10,
+        left: 20,
+        right: 20,
+      ),
+      child: TextField(
+        textAlign: TextAlign.left,
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          labelText: placholder,
+        ),
+      ),
     );
   }
 }
