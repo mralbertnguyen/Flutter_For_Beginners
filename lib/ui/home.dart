@@ -62,8 +62,6 @@ class HomePageState extends State<HomePage>{
                                 // swipe left to right
                                 bloc.deleteNote(note.id);
                               }else if(direction == DismissDirection.startToEnd){
-                                Scaffold.of(context).showSnackBar(SnackBar(content: new Text("Edit $title note")));
-                                // swipe right to left
                                 tapOnItemNote(note);
                               }
                             },
@@ -102,9 +100,20 @@ class HomePageState extends State<HomePage>{
     return new ListTile(
     // Padding
     contentPadding: EdgeInsets.symmetric(horizontal:  20.0, vertical: 10.0),
-    title: new Text(note.title),
-    subtitle: new Text(note.desc),
+    title:  customItemText(note.title,25.0, 2),
+    subtitle:  customItemText(note.desc, 14.0, 4),
   );}
+
+  Text customItemText(String txt, double size, int maxlines){
+    return Text(
+      txt,
+      maxLines: maxlines,
+      style: TextStyle(
+        color: widgetPage.whiteColor,
+        fontSize: size,
+      ),
+    );
+  }
 
   // Functions
   addNewNote(){

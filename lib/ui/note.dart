@@ -52,16 +52,28 @@ class NotePageState extends State<NotePage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
+      // Float button avoid view
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: new Text("Note"),
         backgroundColor: widgetPage.mainColor,
       ),
-      body: new Column(
-        children: <Widget>[
-          titleWidget(),
-          noteForm(),
-        ],
+      body: new Center(
+        child: new Column(
+          children: <Widget>[noteForm()],
+        ),
       ),
+      floatingActionButton: new Container(
+        width: 200.0,
+        height: 200.0,
+        padding: EdgeInsets.only(bottom: 100.0),
+        child: new FloatingActionButton(
+          child: const Icon(Icons.done,size: 100,),
+          onPressed: saveNote,
+          backgroundColor: widgetPage.mainColor,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -72,51 +84,53 @@ class NotePageState extends State<NotePage> {
     if (widget.note == null) {
       return new Column(
         children: <Widget>[
-          new Text("Title: "),
           // Type title
-          customTextFieldForNotePage(titleTxtController, TextInputType.text, 1, true),
-          new Text("Desciption: "),
-          // Type desc
           customTextFieldForNotePage(
-              descTxtController, TextInputType.multiline, null, true),
-          new RaisedButton(onPressed: saveNote)
+              titleTxtController, TextInputType.text, 1, true, "Title", 50),
+          // Type desc
+          customTextFieldForNotePage(descTxtController, TextInputType.multiline,
+              null, true, "Content", 200),
         ],
       );
     } else {
       return new Column(
         children: <Widget>[
-          new Text("Title: "),
           // Type title
-          customTextFieldForNotePage(titleTxtController, TextInputType.text, 1, true),
-          new Text("Desciption: "),
-          // Type desc
           customTextFieldForNotePage(
-              descTxtController, TextInputType.multiline, null, true),
-          new RaisedButton(onPressed: saveNote)
+              titleTxtController, TextInputType.text, 1, true, "Title", 50),
+          // Type desc
+          customTextFieldForNotePage(descTxtController, TextInputType.multiline,
+              null, true, "Content", 200),
         ],
       );
     }
   }
 
-  Container customTextFieldForNotePage(TextEditingController _controller, TextInputType _keyboardType, int _maxLines, bool enabled) {
+  Container customTextFieldForNotePage(TextEditingController _controller,
+      TextInputType _keyboardType, int _maxLines, bool enabled, String label, double height) {
     return Container(
-      width: 300,
-      height: 70,
+      width: 400,
+      height: height,
       margin: const EdgeInsets.only(
         top: 10,
         left: 20,
         right: 20,
       ),
       child: TextField(
-        controller: _controller,
-        keyboardType: _keyboardType,
-        maxLines: _maxLines,
-        enabled: enabled),
+          decoration: InputDecoration(labelText: label),
+          controller: _controller,
+          keyboardType: _keyboardType,
+          maxLines: _maxLines,
+          enabled: enabled),
     );
   }
 
-  Text titleWidget() {
-    return Text("Note");
+  Text titleWidget(String str) {
+    return Text(
+      str,
+      textAlign: TextAlign.left,
+      style: TextStyle(fontSize: 40),
+    );
   }
 
   void saveNote() {
@@ -124,18 +138,17 @@ class NotePageState extends State<NotePage> {
     final String desc = descTxtController.text;
 
     // Get id from note object existed
-    if(widget.note != null){
+    if (widget.note != null) {
       print("Update note");
       final int id = widget.note.id;
       var updateNote = NoteModel(id: id, title: title, desc: desc);
       // Update note
       bloc.updateNote(updateNote);
-    }else{
+    } else {
       print("Add note");
       var newNote = NoteModel(title: title, desc: desc);
       // Add new note
       bloc.addNote(newNote);
     }
-
   }
 }
