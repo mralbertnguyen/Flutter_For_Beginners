@@ -75,7 +75,8 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
 
   Text customTitleAsLogo(String msg) {
     return Text(
-      msg
+      msg,
+      style: TextStyle(fontFamily: 'RobotoMono', fontSize: 100),
     );
   }
 }

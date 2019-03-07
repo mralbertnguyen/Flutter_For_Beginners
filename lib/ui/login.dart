@@ -161,6 +161,7 @@ class LoginPageState extends State<LoginPage> {
           ),
           child: new Column(
             children: <Widget>[
+              widgetPage.customTitleAsLogo("NOTE"),
               inputTextField("User name", userNameController, false),
               inputTextField("Password: ", passwordController, true),
               buttonForm()
