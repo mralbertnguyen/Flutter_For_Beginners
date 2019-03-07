@@ -65,19 +65,7 @@ class HomePageState extends State<HomePage>{
                             tapOnItemNote(note);
                           }
                         },
-                        child: new GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context){
-                                  return new Center(
-                                    child: _dialog(note),
-                                  );
-                                }
-                              );
-                            },
-                            child: _itemList(note),
-                        ),
+                          child: _itemList(note)
                         );
                       },
 
