@@ -117,7 +117,7 @@ class HomePageState extends State<HomePage>{
   addNewNote(){
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Note()),
+      MaterialPageRoute(builder: (context) => NotePage(note: null)),
     );
   }
 

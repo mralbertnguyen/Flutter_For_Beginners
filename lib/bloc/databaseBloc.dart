@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../models/note_model.dart';
+import '../models/user_model.dart';
 import '../resources/database.dart';
 
 class NoteBloc{
@@ -30,4 +31,26 @@ class NoteBloc{
   updateNote(NoteModel note){
     DBProvider.db.editNote(note);
   }
+}
+
+class UserBloc{
+  final _userController = StreamController<List<UserModel>>.broadcast();
+
+  get users => _userController.stream;
+
+  dispone(){
+    _userController.close();
+  }
+
+  getUsers() async{
+    _userController.sink.add(await DBProvider.db.getAllUser());
+  }
+
+  UserBloc(){
+  }
+
+  addUser(UserModel user){
+    DBProvider.db.newUser(user);
+  }
+
 }

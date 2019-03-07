@@ -3,7 +3,10 @@ import 'package:flutter_app/models/user_model.dart';
 
 import '../resources/database.dart';
 
+import '../bloc/databaseBloc.dart';
+
 class SignIn extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -23,6 +26,9 @@ class SignInPageSate extends State<SignInPage>{
   TextEditingController usernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController retypePasswordController = new TextEditingController();
+
+  // Create bloc controller
+  final bloc = UserBloc();
 
   @override
   Widget build(BuildContext context) {

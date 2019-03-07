@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/home.dart';
 import 'package:flutter_app/ui/signin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../resources/database.dart';
 import '../models/user_model.dart';
@@ -37,7 +38,24 @@ class LoginPageState extends State<LoginPage>{
   final String userNameDefault = 'admin';
   final String passwordDefault = 'admin';
 
-  // handle sigin
+  bool isLogin ;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    // Clean up controller when Widget is disposed
+    userNameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _checkIsLogin();
+  }
+
+  // handle register new account
   void _signInNewAccount(){
     // change to main screen
     Navigator.push(
@@ -45,31 +63,34 @@ class LoginPageState extends State<LoginPage>{
       MaterialPageRoute(builder: (context) => SignIn()),
     );
   }
+
   // Function check login
   void _checkInfoLogin() async{
-    final String _username = userNameController.text;
-    final String _password = passwordController.text;
+    // Check user login or not
+      final String _username = userNameController.text;
+      final String _password = passwordController.text;
 
-    if(_checkIsNotNull(_username, _password)){
-      var resultCheckExisted = await _checkIsExisted(_username, _password);
+      if(_checkIsNotNull(_username, _password)){
+        var resultCheckExisted = await _checkIsExisted(_username, _password);
 
-      Map parsedJson = resultCheckExisted.toJson();
-      // Get password from result
-      String parsedPassword = parsedJson.values.toList()[1];
+        Map parsedJson = resultCheckExisted.toJson();
+        // Get password from result
+        String parsedPassword = parsedJson.values.toList()[1];
 
-      if(resultCheckExisted != null){
-        if(_checkIsCorrect(_password,parsedPassword)){
-          _loginSucess();
+        if(resultCheckExisted != null){
+          if(_checkIsCorrect(_password,parsedPassword)){
+            _rememberLogin();
+          }else{
+            print("Wrong password");
+          }
         }else{
-          print("Wrong password");
+          print("Result: null");
         }
+
       }else{
-        print("Result: null");
+        print("User name and password null");
       }
 
-    }else{
-      print("User name and password null");
-    }
   }
 
   bool _checkIsNotNull (String username, String password){
@@ -104,17 +125,27 @@ class LoginPageState extends State<LoginPage>{
     );
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    // Clean up controller when Widget is disposed
-    userNameController.dispose();
-    passwordController.dispose();
-    super.dispose();
+  void _rememberLogin() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool("isLogin", true);
+      _loginSucess();
   }
+
+   void _checkIsLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getBool("isLogin") == true){
+      // User was login
+      _loginSucess();
+    }else{
+      print("Not login before");
+    }
+
+   }
+
 
   @override
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return new Scaffold(
         appBar: AppBar(
