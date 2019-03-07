@@ -17,6 +17,8 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
     // TODO: implement build
     return null;
   }
+
+  ///Global Variables
   final Color mainColor = Color.fromRGBO(64, 75, 96, .9);
   final Color whiteColor = Color.fromARGB(255, 255, 255, 255);
   ///Generate MD5 hash
@@ -55,6 +57,7 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
     );
 
   }
+
   ButtonTheme button(String btnTitle, Function function) {
     return ButtonTheme(
       minWidth: 250,
@@ -76,7 +79,30 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
   Text customTitleAsLogo(String msg) {
     return Text(
       msg,
-      style: TextStyle(fontFamily: 'RobotoMono', fontSize: 100),
+      style: TextStyle(fontFamily: 'Raleway', fontSize: 100),
     );
   }
+
+  Container inputTextField(
+      String placholder, TextEditingController controller, bool obscureText) {
+    return Container(
+      width: 300,
+      height: 70,
+      margin: const EdgeInsets.only(
+        top: 10,
+        left: 20,
+        right: 20,
+      ),
+      child: TextField(
+        textAlign: TextAlign.left,
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          labelText: placholder,
+        ),
+      ),
+    );
+  }
+
+
 }

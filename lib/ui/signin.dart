@@ -31,6 +31,7 @@ class SignInPageSate extends State<SignInPage>{
 
   // Create bloc controller
   final bloc = UserBloc();
+  final widgetPage = widgetController.WidgetAndFunctionState();
 
 
   @override
@@ -39,51 +40,38 @@ class SignInPageSate extends State<SignInPage>{
     return new Scaffold(
       appBar: AppBar(
         title: new Text("Sign in"),
+        backgroundColor: widgetPage.mainColor,
       ),
-      body: Builder(
-          builder: (context) =>
-          new Column(
-            children: <Widget>[
-              _inputTextField("User name", usernameController, false),
-              _inputTextField("Password", passwordController, true),
-              _inputTextField("Retype password", retypePasswordController, true),
-              _buttonForm(context),
-            ],
-          ),
-      ),
-
+        body: new Center(
+            child: new Theme(
+              data: new ThemeData(
+                primaryColor: widgetPage.mainColor,
+                primaryColorDark: Colors.white,
+              ),
+              child: new Column(
+                children: <Widget>[
+                  widgetPage.inputTextField("User name", usernameController, false),
+                  widgetPage.inputTextField("Password", passwordController, false),
+                  widgetPage.inputTextField("Retype password", retypePasswordController, false),
+                  buttonForm(context),
+                ],
+              ),
+            )
+        )
     );
   }
-
   /*
   * Widgets
   * */
-  Widget _buttonForm(BuildContext formContext){
-    return new Row(
-      children: <Widget>[
-        _button("OK", finishSignIn ),
-        _button("Cancel",_cancel)
-      ],
-    );
-  }
-
-  TextField _inputTextField(String placeholder, TextEditingController controller, bool obscureText){
-    return TextField(
-      textAlign: TextAlign.left,
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-          labelText: placeholder,
+  Widget buttonForm(BuildContext formContext){
+    return Container(
+      margin: const EdgeInsets.only(top: 10.0),
+      child: Column(
+        children: <Widget>[
+          widgetPage.button("Log in", finishSignIn),
+          widgetPage.button("Cancel", cancel)
+        ],
       ),
-    );
-  }
-
-  RaisedButton _button (String btnTitle, Function function){
-    return RaisedButton(
-      onPressed: (){
-        function();
-      },
-      child: new Text(btnTitle),
     );
   }
 
@@ -133,13 +121,10 @@ class SignInPageSate extends State<SignInPage>{
     return false;
   }
 
-  void _cancel(){
+  void cancel(){
     print("Cancel");
     // Back previous screen
     Navigator.of(context).pop();
   }
-
-
-
 
 }

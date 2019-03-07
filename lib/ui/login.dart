@@ -154,7 +154,7 @@ class LoginPageState extends State<LoginPage> {
           backgroundColor: widgetPage.mainColor,
         ),
         body: new Center(
-            child: new Theme(
+          child: new Theme(
           data: new ThemeData(
             primaryColor: widgetPage.mainColor,
             primaryColorDark: Colors.white,
@@ -162,12 +162,14 @@ class LoginPageState extends State<LoginPage> {
           child: new Column(
             children: <Widget>[
               widgetPage.customTitleAsLogo("NOTE"),
-              inputTextField("User name", userNameController, false),
-              inputTextField("Password: ", passwordController, true),
+              widgetPage.inputTextField("User name", userNameController, false),
+              widgetPage.inputTextField("Password: ", passwordController, true),
               buttonForm()
             ],
           ),
-        )));
+        )
+        )
+    );
   }
 
   Container buttonForm() {
@@ -182,24 +184,5 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  Container inputTextField(
-      String placholder, TextEditingController controller, bool obscureText) {
-    return Container(
-      width: 300,
-      height: 70,
-      margin: const EdgeInsets.only(
-        top: 10,
-        left: 20,
-        right: 20,
-      ),
-      child: TextField(
-        textAlign: TextAlign.left,
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          labelText: placholder,
-        ),
-      ),
-    );
-  }
+
 }

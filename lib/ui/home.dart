@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import '../models/note_model.dart';
 import '../bloc/databaseBloc.dart';
 import '../ui/note.dart';
-
+import '../resources/widgetsAndFunction.dart' as widgetController;
 void main() => runApp(Home());
 
 class Home extends StatelessWidget{
@@ -27,7 +27,7 @@ class HomePage extends StatefulWidget{
 class HomePageState extends State<HomePage>{
 
   final bloc = NoteBloc();
-
+  final widgetPage = widgetController.WidgetAndFunctionState();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -39,59 +39,54 @@ class HomePageState extends State<HomePage>{
     // TODO: implement build
     bloc.getNotes();
     return  Scaffold(
-          appBar: AppBar(title: new Text("Note"),),
-          body: StreamBuilder<List<NoteModel>>(
-              stream: bloc.notes ,
-              builder: (BuildContext context, AsyncSnapshot<List<NoteModel>> snapshot){
-                if(snapshot.hasData){
-                  return ListView.builder(
+          appBar: AppBar(title: new Text("Note"),backgroundColor: widgetPage.mainColor,),
+          body: new Theme(
+              data: new ThemeData(
+                primaryColor: widgetPage.mainColor,
+                primaryColorDark: Colors.white,
+              ),
+              child: StreamBuilder<List<NoteModel>>(
+                stream: bloc.notes ,
+                builder: (BuildContext context, AsyncSnapshot<List<NoteModel>> snapshot){
+                  if(snapshot.hasData){
+                    return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index){
                         NoteModel note = snapshot.data[index];
                         final title = note.title;
-
                         return Dismissible(
-                        key: UniqueKey(),
+                            key: UniqueKey(),
 //                        secondaryBackground: Text("Delete"),
-                        onDismissed: (direction){
-                          if(direction == DismissDirection.endToStart){
-                            // notify bottom with snackbar
-                            Scaffold.of(context).showSnackBar(SnackBar(content: new Text("Deleted $title note")));
-                            // swipe left to right
-                            bloc.deleteNote(note.id);
-                          }else if(direction == DismissDirection.startToEnd){
-                            Scaffold.of(context).showSnackBar(SnackBar(content: new Text("Edit $title note")));
-                            // swipe right to left
-                            tapOnItemNote(note);
-                          }
-                        },
-                          child: _itemList(note)
+                            onDismissed: (direction){
+                              if(direction == DismissDirection.endToStart){
+                                // notify bottom with snackbar
+                                Scaffold.of(context).showSnackBar(SnackBar(content: new Text("Deleted $title note")));
+                                // swipe left to right
+                                bloc.deleteNote(note.id);
+                              }else if(direction == DismissDirection.startToEnd){
+                                Scaffold.of(context).showSnackBar(SnackBar(content: new Text("Edit $title note")));
+                                // swipe right to left
+                                tapOnItemNote(note);
+                              }
+                            },
+                            child: _itemList(note)
                         );
                       },
-
-                  );
-                }else{
-                  return new Center(
-                    child: new Text("No note"),
-                  );
-                }
-              },
+                    );
+                  }else{
+                    return new Center(
+                      child: new Text("No note"),
+                    );
+                  }
+                },
+              ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: addNewNote,
+            backgroundColor: widgetPage.mainColor,
             child: Icon(Icons.add,),
           ),
         );
-  }
-
-  AlertDialog _dialog(NoteModel note){
-    return AlertDialog(
-      title: new Text(note.title),
-      content: new Text(note.desc),
-      actions: <Widget>[
-        new FlatButton(onPressed: tapOnItemNote(note), child: new Text("Edit"))
-      ],
-    );
   }
 
   Card _itemList(NoteModel note){
