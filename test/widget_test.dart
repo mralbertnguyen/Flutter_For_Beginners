@@ -8,10 +8,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_app/ui/home.dart';
+import 'package:flutter_app/ui/signin.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Test register new account', (WidgetTester tester) async {
+
 //    // Build our app and trigger a frame.
 //    await tester.pumpWidget(MyApp());
 //

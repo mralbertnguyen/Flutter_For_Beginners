@@ -27,4 +27,5 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
 
     return hex.encode(digest.bytes);
   }
+
 }

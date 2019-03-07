@@ -12,6 +12,18 @@ import 'dart:async';
 
 void main() => runApp(Login());
 
+class UserNameValidate{
+  static String validate(String username){
+    return username.isEmpty ? 'Please type username' : null;
+  }
+}
+
+class PasswordValidate{
+  static String validate(String pwd){
+    return pwd.isEmpty ? 'Please type password' : null;
+  }
+}
+
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -47,13 +59,13 @@ class LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void initState() {
+  void initState() async{
     // TODO: implement initState
-    _checkIsLogin();
+    checkIsLogin();
   }
 
   // handle register new account
-  void _signInNewAccount() {
+  void signInNewAccount() {
     // change to main screen
     Navigator.push(
       context,
@@ -62,23 +74,21 @@ class LoginPageState extends State<LoginPage> {
   }
 
   // Function check login
-  void _checkInfoLogin() async {
+  void checkInfoLogin() async {
     // Check user login or not
     final String _username = userNameController.text;
     // Decode password with MD5
     final String _password = widgetController.WidgetAndFunctionState().generateMd5(passwordController.text);
-    print("1 PASS " + _password);
-    if (_checkIsNotNull(_username, _password)) {
-      var resultCheckExisted = await _checkIsExisted(_username, _password);
+    if (checkIsNotNull(_username, _password)) {
+      var resultCheckExisted = await checkIsExisted(_username);
       if (resultCheckExisted != null) {
         // get json
         Map parsedJson = resultCheckExisted.toJson();
         // Get password from json result
         String parsedPassword = parsedJson.values.toList()[1];
-
         if (resultCheckExisted != null) {
-          if (_checkIsCorrect(_password, parsedPassword)) {
-            _rememberLogin();
+          if (checkIsCorrect(_password, parsedPassword)) {
+            rememberLogin();
           } else {
             print("Wrong password");
           }
@@ -93,30 +103,31 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  bool _checkIsNotNull(String username, String password) {
+  bool checkIsNotNull(String username, String password) {
     if (username.isEmpty && password.isEmpty) {
       return false;
     }
     return true;
   }
 
-  Future<UserModel> _checkIsExisted(String username, String pwd) async {
+  Future<UserModel> checkIsExisted(String username) async {
     UserModel model = new UserModel();
 
     model = await DBProvider.db.getUser(username);
 
+    print(model);
+
     return model;
   }
 
-  bool _checkIsCorrect(String currentPwd, String pwdGetInDatabase) {
-    print("Your password: "+ currentPwd + "\n" + pwdGetInDatabase);
+  bool checkIsCorrect(String currentPwd, String pwdGetInDatabase) {
     if (currentPwd.compareTo(pwdGetInDatabase) == 0) {
       return true;
     }
     return false;
   }
 
-  void _loginSucess() {
+  void loginSuccess() {
     print("Login success");
     // change to main screen
     Navigator.pushAndRemoveUntil(
@@ -125,17 +136,17 @@ class LoginPageState extends State<LoginPage> {
         ModalRoute.withName("/Login"));
   }
 
-  void _rememberLogin() async {
+  void rememberLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("isLogin", true);
-    _loginSucess();
+    loginSuccess();
   }
 
-  void _checkIsLogin() async {
+  void checkIsLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getBool("isLogin") == true) {
       // User was login
-      _loginSucess();
+      loginSuccess();
     } else {
       print("Not login before");
     }
@@ -162,14 +173,14 @@ class LoginPageState extends State<LoginPage> {
   Row buttonForm() {
     return Row(
       children: <Widget>[
-        _button("Log in", _checkInfoLogin),
-        _button("Sign up", _signInNewAccount)
+        _button("Log in", checkInfoLogin),
+        _button("Sign up", signInNewAccount)
       ],
     );
   }
 
   TextField _inputTextField(
-      String placholder, TextEditingController controller, bool obscureText) {
+    String placholder, TextEditingController controller, bool obscureText) {
     return TextField(
       textAlign: TextAlign.left,
       controller: controller,
