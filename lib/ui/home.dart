@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-
 import '../models/note_model.dart';
 import '../bloc/databaseBloc.dart';
 import '../ui/note.dart';
@@ -23,7 +22,6 @@ class HomePage extends StatefulWidget{
   @override
   HomePageState createState() => new HomePageState();
 }
-
 class HomePageState extends State<HomePage>{
 
   final bloc = NoteBloc();

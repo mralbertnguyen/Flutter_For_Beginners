@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-void main () => runApp(Welcome());
 
+void main () => runApp(Welcome());
 
 class Welcome extends StatelessWidget{
   @override

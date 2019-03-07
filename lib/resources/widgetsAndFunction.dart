@@ -3,7 +3,6 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:convert/convert.dart';
 import 'dart:convert';
 
-
 class WidgetsFunctions extends StatefulWidget{
   WidgetsFunctions({Key key, this.title}) : super(key:key);
   final String title;
@@ -21,6 +20,7 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
   ///Global Variables
   final Color mainColor = Color.fromRGBO(64, 75, 96, .9);
   final Color whiteColor = Color.fromARGB(255, 255, 255, 255);
+
   ///Generate MD5 hash
   String generateMd5(String data) {
     var content = new Utf8Encoder().convert(data);

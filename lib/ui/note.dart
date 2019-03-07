@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../resources/database.dart';
 import '../models/note_model.dart';
-
 import '../bloc/databaseBloc.dart';
+import '../resources/widgetsAndFunction.dart' as widgetController;
 
 void main() => runApp(Note());
 
@@ -26,6 +24,7 @@ class NotePage extends StatefulWidget {
 
 class NotePageState extends State<NotePage> {
   final bloc = NoteBloc();
+  final widgetPage = widgetController.WidgetAndFunctionState();
 
   // controllers to handle text
   TextEditingController titleTxtController = TextEditingController();
@@ -39,6 +38,8 @@ class NotePageState extends State<NotePage> {
       titleTxtController.text = widget.note.title;
       descTxtController.text = widget.note.desc;
     }
+
+    super.initState();
   }
 
   @override
@@ -53,7 +54,7 @@ class NotePageState extends State<NotePage> {
     return new Scaffold(
       appBar: AppBar(
         title: new Text("Note"),
-        actions: <Widget>[],
+        backgroundColor: widgetPage.mainColor,
       ),
       body: new Column(
         children: <Widget>[
@@ -73,10 +74,10 @@ class NotePageState extends State<NotePage> {
         children: <Widget>[
           new Text("Title: "),
           // Type title
-          customTextField(titleTxtController, TextInputType.text, 1, true),
+          customTextFieldForNotePage(titleTxtController, TextInputType.text, 1, true),
           new Text("Desciption: "),
           // Type desc
-          customTextField(
+          customTextFieldForNotePage(
               descTxtController, TextInputType.multiline, null, true),
           new RaisedButton(onPressed: saveNote)
         ],
@@ -86,10 +87,10 @@ class NotePageState extends State<NotePage> {
         children: <Widget>[
           new Text("Title: "),
           // Type title
-          customTextField(titleTxtController, TextInputType.text, 1, true),
+          customTextFieldForNotePage(titleTxtController, TextInputType.text, 1, true),
           new Text("Desciption: "),
           // Type desc
-          customTextField(
+          customTextFieldForNotePage(
               descTxtController, TextInputType.multiline, null, true),
           new RaisedButton(onPressed: saveNote)
         ],
@@ -97,12 +98,21 @@ class NotePageState extends State<NotePage> {
     }
   }
 
-  TextField customTextField(TextEditingController _controller, TextInputType _keyboardType, int _maxLines, bool enabled) {
-    return TextField(
+  Container customTextFieldForNotePage(TextEditingController _controller, TextInputType _keyboardType, int _maxLines, bool enabled) {
+    return Container(
+      width: 300,
+      height: 70,
+      margin: const EdgeInsets.only(
+        top: 10,
+        left: 20,
+        right: 20,
+      ),
+      child: TextField(
         controller: _controller,
         keyboardType: _keyboardType,
         maxLines: _maxLines,
-        enabled: enabled);
+        enabled: enabled),
+    );
   }
 
   Text titleWidget() {

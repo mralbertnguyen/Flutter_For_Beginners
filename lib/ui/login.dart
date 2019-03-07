@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/home.dart';
 import 'package:flutter_app/ui/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../resources/database.dart';
 import '../models/user_model.dart';
-
 import '../resources/widgetsAndFunction.dart' as widgetController;
-
 import 'dart:async';
 
 void main() => runApp(Login());
