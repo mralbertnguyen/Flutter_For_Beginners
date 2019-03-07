@@ -43,7 +43,6 @@ class NotePageState extends State<NotePage> {
 
   @override
   void dispose() {
-
     bloc.dispone();
     super.dispose();
   }
@@ -65,7 +64,9 @@ class NotePageState extends State<NotePage> {
     );
   }
 
-  // Widgets
+  /*
+  *  Widgets
+  * */
   Widget noteForm() {
     if (widget.note == null) {
       return new Column(
@@ -96,8 +97,7 @@ class NotePageState extends State<NotePage> {
     }
   }
 
-  TextField customTextField(TextEditingController _controller,
-    TextInputType _keyboardType, int _maxLines, bool enabled) {
+  TextField customTextField(TextEditingController _controller, TextInputType _keyboardType, int _maxLines, bool enabled) {
     return TextField(
         controller: _controller,
         keyboardType: _keyboardType,

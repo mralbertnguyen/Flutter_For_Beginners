@@ -12,7 +12,7 @@ class Home extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return new MaterialApp(
-      home: new HomePage()
+      home: new HomePage(),
     );
   }
 

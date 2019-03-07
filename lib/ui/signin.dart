@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/user_model.dart';
 
-import '../resources/database.dart';
 
+import '../resources/database.dart';
 import '../bloc/databaseBloc.dart';
+
+import'../resources/widgetsAndFunction.dart' as widgetController;
 
 class SignIn extends StatelessWidget{
 
@@ -22,13 +24,14 @@ class SignInPage extends StatefulWidget{
 
 class SignInPageSate extends State<SignInPage>{
 
-  // Create controller for editext
+  // Controllers for handle Text field
   TextEditingController usernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController retypePasswordController = new TextEditingController();
 
   // Create bloc controller
   final bloc = UserBloc();
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +51,46 @@ class SignInPageSate extends State<SignInPage>{
     );
   }
 
+  /*
+  * Widgets
+  * */
+  Widget _buttonForm(){
+    return new Row(
+      children: <Widget>[
+        _button("OK", _finishSignIn),
+        _button("Cancel",_cancel)
+      ],
+    );
+  }
 
+  TextField _inputTextField(String placeholder, TextEditingController controller, bool obscureText){
+    return TextField(
+      textAlign: TextAlign.left,
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+          labelText: placeholder,
+      ),
+    );
+  }
 
+  RaisedButton _button (String btnTitle, Function function){
+    return RaisedButton(
+      onPressed: (){
+        function();
+      },
+      child: new Text(btnTitle),
+    );
+  }
+
+  /*
+  * Functions to handle business
+  * */
   void _finishSignIn(){
     // Get user name and password
     final String _username = usernameController.text;
-    final String _password = passwordController.text;
-
-    final String retype = retypePasswordController.text;
+    final String _password =  widgetController.WidgetAndFunctionState().generateMd5(passwordController.text);
+    final String retype = widgetController.WidgetAndFunctionState().generateMd5(retypePasswordController.text);
 
     if(!_checkIsSamePassword(_password, retype)){
       print("Please check password again");
@@ -66,7 +101,7 @@ class SignInPageSate extends State<SignInPage>{
 
   }
 
-   _handleStorageNewUser(String username, String password) async {
+  void _handleStorageNewUser(String username, String password) async {
     // Cast data
     var object = UserModel(username: username, password: password);
 
@@ -75,12 +110,12 @@ class SignInPageSate extends State<SignInPage>{
     var userExist = await DBProvider.db.getUser(username);
 
     if(userExist == null){
-      var insertResult = await DBProvider.db.newUser(object);
+//      await DBProvider.db.newUser(object);
+    bloc.addUser(object);
 
       // Return index of object
-      print("Return by inserter "+ insertResult.toString());
+      // If is int parameter => created new user
 
-//      _showDialog("Insert", insertResult);
     }else{
       _showDialog("Existed", "Existed");
     }
@@ -102,48 +137,21 @@ class SignInPageSate extends State<SignInPage>{
 
   void _showDialog(String title, String content){
     showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: new Text(title),
-          content: new Text(content),
-          actions: <Widget>[
-            new FlatButton(onPressed: (){
-              Navigator.of(context).pop();
-            },
-                child: new Text("Close"))
-          ],
-        );
-      }
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: new Text(title),
+            content: new Text(content),
+            actions: <Widget>[
+              new FlatButton(onPressed: (){
+                Navigator.of(context).pop();
+              },
+                  child: new Text("Close"))
+            ],
+          );
+        }
     );
   }
 
-  Widget _buttonForm(){
-    return new Row(
-      children: <Widget>[
-        _button("OK", _finishSignIn),
-        _button("Cancel",_cancel)
-      ],
-    );
-  }
 
-  TextField _inputTextField(String placholder, TextEditingController controller, bool obscureText){
-    return TextField(
-      textAlign: TextAlign.left,
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-          labelText: placholder,
-      ),
-    );
-  }
-
-  RaisedButton _button (String btnTitle, Function function){
-    return RaisedButton(
-      onPressed: (){
-        function();
-      },
-      child: new Text(btnTitle),
-    );
-  }
 }
