@@ -1,26 +1,26 @@
 import 'dart:convert';
 
-User_Model userFromJson(String str){
+UserModel userFromJson(String str){
   final jsonData = json.decode(str);
-  return User_Model.fromMap(jsonData);
+  return UserModel.fromMap(jsonData);
 }
 
-String userToJson(User_Model user){
+String userToJson(UserModel user){
     final dataUser = user.toJson();
     return json.encode(dataUser);
 }
-class User_Model{
+class UserModel{
   String username;
   String password;
 
   // constructor
-  User_Model({
+  UserModel({
     this.username,
     this.password
   });
 
   // decode
-  factory User_Model.fromMap(Map<String, dynamic> json) => new User_Model(
+  factory UserModel.fromMap(Map<String, dynamic> json) => new UserModel(
     username: json["username"],
     password: json["password"],
   );

@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/user_model.dart';
+import '../models/note_model.dart';
 
 // Create private  constructor that can be used only inside the class
 class DBProvider{
@@ -26,10 +27,10 @@ class DBProvider{
   }
 
   static final String userTableName = "User";
-  static final String dataTableName = "Data";
+  static final String noteTableName = "Note";
 
-  static final String queryCreateDataTable =
-      "CREATE TABLE $dataTableName ("
+  static final String queryCreateNoteTable =
+      "CREATE TABLE $noteTableName ("
       "id INTEGER PRIMARY KEY AUTOINCREMENT, "
       "title VARCHAR(50), "
       "desc VARCHAR(255) "
@@ -55,11 +56,13 @@ class DBProvider{
         onCreate: (Database db, int version) async {
           // When creating the db, create the table
           await db.execute(queryCreateUserTable);
+          await db.execute(queryCreateNoteTable);
         });
+
     return creatingDatabase;
   }
 
-  newUser(User_Model user) async{
+  newUser(UserModel user) async{
     final String queryInsertNewUser = 'INSERT INTO  $userTableName ('
         'username, '
         'password)'
@@ -73,15 +76,14 @@ class DBProvider{
     return insertNewUser;
   }
 
-
-  Future<List<User_Model>> getAllUser() async{
+  Future<List<UserModel>> getAllUser() async{
 
     final db = await database;
     var res = await db.query(userTableName);
 
-    List<User_Model> list = res.isNotEmpty ? res.map((c) => User_Model.fromMap(c)).toList() : [];
-
-    return list;
+    List<UserModel> userList = res.isNotEmpty ? res.map((c) => UserModel.fromMap(c)).toList() : [];
+    // index
+    return userList;
 
   }
 
@@ -90,10 +92,57 @@ class DBProvider{
 
     var res = await db.query(userTableName,where: "username = ?", whereArgs: [username]);
 
-    print(res.isNotEmpty ? User_Model.fromMap(res.first) : null);
-
-    return res.isNotEmpty ? User_Model.fromMap(res.first) : null;
+    return res.isNotEmpty ? UserModel.fromMap(res.first) : null;
   }
+
+  /*
+  * NOTE
+  * */
+  newNote(NoteModel note) async {
+    final String queryInsertNewNote = 'INSERT INTO $noteTableName ('
+        'title, '
+        'desc )'
+        ' VALUES (?,?) ';
+
+    final db = await database;
+
+    var insertNewItem = await db.rawInsert(
+        queryInsertNewNote,[note.title, note.desc]
+    );
+    // index
+    return insertNewItem;
+  }
+
+
+  Future<List<NoteModel>> getAllNote() async{
+    final db = await database;
+    var res = await db.query(noteTableName);
+    List<NoteModel> noteList = res.isNotEmpty ? res.map((c) => NoteModel.fromMap(c)).toList() : [];
+    return noteList;
+  }
+
+  getNote(int id) async{
+      final db = await database;
+      var res = await db.query(noteTableName, where: "id = ? ", whereArgs: [id]);
+
+      return res.isNotEmpty ? NoteModel.fromMap(res.first) : null;
+  }
+
+  editNote(NoteModel note) async {
+    final db = await database;
+    final int id = note.id;
+    var res = db.update(noteTableName, note.json(),where: "id = ?", whereArgs: [id]);
+    return res;
+  }
+
+  deleteNote(int id) async {
+    print("ID: " + id.toString());
+    final db = await database;
+    var result =db.delete(noteTableName, where: "id = ?", whereArgs: [id]);
+    print(result);
+    return result;
+  }
+
 }
 
 

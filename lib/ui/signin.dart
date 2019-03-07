@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/models/user_model.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../resources/database.dart';
-
-import 'dart:async';
-
 
 class SignIn extends StatelessWidget{
   @override
@@ -67,7 +62,7 @@ class SignInPageSate extends State<SignInPage>{
 
    _handleStorageNewUser(String username, String password) async {
     // Cast data
-    var object = User_Model(username: username, password: password);
+    var object = UserModel(username: username, password: password);
 
     // It return a result if find object have same username
     // null if can't find
