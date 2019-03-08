@@ -76,6 +76,8 @@ class SignInPageSate extends State<SignInPage>{
   * Functions to handle business
   * */
   finishSignIn(){
+    // Close keyboard
+    FocusScope.of(context).requestFocus(new FocusNode());
     // Get user name and password
     final String _username = usernameController.text;
     final String _password =  widgetController.WidgetAndFunctionState().generateMd5(passwordController.text);
@@ -119,6 +121,8 @@ class SignInPageSate extends State<SignInPage>{
   }
 
   void cancel(){
+    // Close keyboard
+    FocusScope.of(context).requestFocus(new FocusNode());
     print("Cancel");
     // Back previous screen
     Navigator.of(context).pop();

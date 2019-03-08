@@ -79,6 +79,9 @@ class LoginPageState extends State<LoginPage> {
 
   // handle register new account
   void signInNewAccount() {
+    // Close keyboard
+    FocusScope.of(context).requestFocus(new FocusNode());
+
     // change to main screen
     Navigator.push(
       context,
@@ -88,6 +91,9 @@ class LoginPageState extends State<LoginPage> {
 
   // Function check login
   void checkInfoLogin() async {
+    // Close keyboard
+    FocusScope.of(context).requestFocus(new FocusNode());
+
     // Check user login or not
     final String _username = userNameController.text;
     // Decode password with MD5
@@ -168,7 +174,6 @@ class LoginPageState extends State<LoginPage> {
       print("Not login before");
     }
   }
-
 
 
   Container buttonForm() {

@@ -145,25 +145,43 @@ class NotePageState extends State<NotePage> {
     );
   }
 
+  bool checkNotNull(String title , String content){
+    if(title.length == 0  || content.length == 0){
+      return false;
+    }
+    return true;
+  }
+
   void saveNote() {
+    // Close keyboard
+    FocusScope.of(context).requestFocus(new FocusNode());
+
+
     final String title = titleTxtController.text;
     final String desc = descTxtController.text;
 
-    // Get id from note object existed
-    if (widget.note != null) {
-      print("Update note");
-      final int id = widget.note.id;
-      var updateNote = NoteModel(id: id, title: title, desc: desc);
-      // Update note
-      bloc.updateNote(updateNote);
-    } else {
-      print("Add note");
-      var newNote = NoteModel(title: title, desc: desc);
-      // Add new note
-      bloc.addNote(newNote);
+
+    if(checkNotNull(title, desc)){
+      // Get id from note object existed
+      if (widget.note != null) {
+        print("Update note");
+        final int id = widget.note.id;
+        var updateNote = NoteModel(id: id, title: title, desc: desc);
+        // Update note
+        bloc.updateNote(updateNote);
+      } else {
+        print("Add note");
+        var newNote = NoteModel(title: title, desc: desc);
+        // Add new note
+        bloc.addNote(newNote);
+
+      }
+      // back to main screen
+      Navigator.of(context).pop();
+    }else{
+      print("Empty title | desciption");
     }
 
-    // back to main screen
-    Navigator.of(context).pop();
+
   }
 }
