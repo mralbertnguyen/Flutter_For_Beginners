@@ -3,14 +3,14 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:convert/convert.dart';
 import 'dart:convert';
 
-class WidgetsFunctions extends StatefulWidget{
-  WidgetsFunctions({Key key, this.title}) : super(key:key);
+class WidgetsFunctions extends StatefulWidget {
+  WidgetsFunctions({Key key, this.title}) : super(key: key);
   final String title;
   @override
   WidgetAndFunctionState createState() => new WidgetAndFunctionState();
 }
 
-class WidgetAndFunctionState extends State<WidgetsFunctions>{
+class WidgetAndFunctionState extends State<WidgetsFunctions> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -26,36 +26,33 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
     var content = new Utf8Encoder().convert(data);
     var md5 = crypto.md5;
     var digest = md5.convert(content);
-    print("data: "+data + "\n" + "after decode: "+ digest.toString());
+    print("data: " + data + "\n" + "after decode: " + digest.toString());
 
     return hex.encode(digest.bytes);
   }
 
-  customDialog(String title, String content, BuildContext screenContext){
+  customDialog(String title, String content, BuildContext screenContext) {
     showDialog(
         context: screenContext,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text(title),
-            content: new Text(content),
+            title: Text(title),
+            content: Text(content),
             actions: <Widget>[
-              new FlatButton(onPressed: (){
-                Navigator.of(context).pop();
-              },
-                  child: new Text("Close"))
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Close"))
             ],
           );
-        }
-    );
+        });
   }
 
-  SnackBar customSnackBar(String message){
+  SnackBar customSnackBar(String message) {
     return SnackBar(
-        content: new Text(message),
-        backgroundColor: Color.fromRGBO(64, 75, 96, .9)
-
-    );
-
+        content: Text(message),
+        backgroundColor: Color.fromRGBO(64, 75, 96, .9));
   }
 
   ButtonTheme button(String btnTitle, Function function) {
@@ -70,16 +67,25 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
           },
           materialTapTargetSize: MaterialTapTargetSize.padded,
           color: mainColor,
-          child: Text(btnTitle,style: TextStyle(color: whiteColor, fontSize: 20,),),
+          child: Text(
+            btnTitle,
+            style: TextStyle(
+              color: whiteColor,
+              fontSize: 20,
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Text customTitleAsLogo(String msg) {
-    return Text(
-      msg,
-      style: TextStyle(fontFamily: 'Raleway', fontSize: 100),
+  Container customTitleAsLogo(String msg) {
+    return Container(
+      margin: EdgeInsets.only(top: 50, bottom: 20),
+      child: Text(
+        msg,
+        style: TextStyle(fontFamily: 'Raleway', fontSize: 100),
+      ),
     );
   }
 
@@ -88,7 +94,7 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
     return Container(
       width: 300,
       height: 70,
-      margin: const EdgeInsets.only(
+      margin: EdgeInsets.only(
         top: 10,
         left: 20,
         right: 20,
@@ -103,6 +109,4 @@ class WidgetAndFunctionState extends State<WidgetsFunctions>{
       ),
     );
   }
-
-
 }

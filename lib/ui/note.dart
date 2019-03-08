@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/note_model.dart';
 import '../bloc/databaseBloc.dart';
-import '../resources/widgetsAndFunction.dart' as widgetController;
+import 'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
 
 void main() => runApp(Note());
 
@@ -51,28 +51,31 @@ class NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
+    return Scaffold(
       // Float button avoid view
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: new Text("Note"),
+        title: Text("Note"),
         backgroundColor: widgetPage.mainColor,
       ),
-      body: new Theme(
-        data: new ThemeData(
+      body: Theme(
+        data: ThemeData(
           primaryColor: widgetPage.mainColor,
           primaryColorDark: Colors.white,
         ),
-        child: new Column(
+        child: Column(
           children: <Widget>[noteForm()],
         ),
       ),
-      floatingActionButton: new Container(
+      floatingActionButton: Container(
         width: 200.0,
         height: 200.0,
         padding: EdgeInsets.only(bottom: 100.0),
-        child: new FloatingActionButton(
-          child: const Icon(Icons.done,size: 100,),
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.done,
+            size: 100,
+          ),
           onPressed: saveNote,
           backgroundColor: widgetPage.mainColor,
         ),
@@ -86,7 +89,7 @@ class NotePageState extends State<NotePage> {
   * */
   Widget noteForm() {
     if (widget.note == null) {
-      return new Column(
+      return Column(
         children: <Widget>[
           // Type title
           customTextFieldForNotePage(
@@ -97,7 +100,7 @@ class NotePageState extends State<NotePage> {
         ],
       );
     } else {
-      return new Column(
+      return Column(
         children: <Widget>[
           // Type title
           customTextFieldForNotePage(
@@ -110,8 +113,13 @@ class NotePageState extends State<NotePage> {
     }
   }
 
-  Container customTextFieldForNotePage(TextEditingController _controller,
-      TextInputType _keyboardType, int _maxLines, bool enabled, String label, double height) {
+  Container customTextFieldForNotePage(
+      TextEditingController _controller,
+      TextInputType _keyboardType,
+      int _maxLines,
+      bool enabled,
+      String label,
+      double height) {
     return Container(
       width: 400,
       height: height,

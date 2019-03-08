@@ -4,7 +4,7 @@ import 'package:flutter_app/ui/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/database.dart';
 import '../models/user_model.dart';
-import '../resources/widgetsAndFunction.dart' as widgetController;
+import 'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
 import 'dart:async';
 
 void main() => runApp(Login());
@@ -53,18 +53,18 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
+    return  Scaffold(
         appBar: AppBar(
-          title: new Text("Login"),
+          title:  Text("Login"),
           backgroundColor: widgetPage.mainColor,
         ),
-        body: new Center(
-            child: new Theme(
-              data: new ThemeData(
+        body:  Center(
+            child:  Theme(
+              data:  ThemeData(
                 primaryColor: widgetPage.mainColor,
                 primaryColorDark: Colors.white,
               ),
-              child: new Column(
+              child:  Column(
                 children: <Widget>[
                   widgetPage.customTitleAsLogo("NOTE"),
                   widgetPage.inputTextField("User name", userNameController, false),

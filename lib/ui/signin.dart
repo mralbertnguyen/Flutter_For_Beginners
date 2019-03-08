@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/user_model.dart';
 import '../resources/database.dart';
 import '../bloc/databaseBloc.dart';
-import'../resources/widgetsAndFunction.dart' as widgetController;
+import'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
 
 class SignIn extends StatelessWidget{
 
@@ -34,22 +34,22 @@ class SignInPageSate extends State<SignInPage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
+    return  Scaffold(
       appBar: AppBar(
-        title: new Text("Sign in"),
+        title:  Text("Sign in"),
         backgroundColor: widgetPage.mainColor,
       ),
-        body: new Center(
-            child: new Theme(
-              data: new ThemeData(
+        body:  Center(
+            child:  Theme(
+              data:  ThemeData(
                 primaryColor: widgetPage.mainColor,
                 primaryColorDark: Colors.white,
               ),
-              child: new Column(
+              child:  Column(
                 children: <Widget>[
                   widgetPage.inputTextField("User name", usernameController, false),
-                  widgetPage.inputTextField("Password", passwordController, false),
-                  widgetPage.inputTextField("Retype password", retypePasswordController, false),
+                  widgetPage.inputTextField("Password", passwordController, true),
+                  widgetPage.inputTextField("Retype password", retypePasswordController, true),
                   buttonForm(context),
                 ],
               ),
