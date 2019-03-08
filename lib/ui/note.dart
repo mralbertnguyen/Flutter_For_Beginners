@@ -58,7 +58,11 @@ class NotePageState extends State<NotePage> {
         title: new Text("Note"),
         backgroundColor: widgetPage.mainColor,
       ),
-      body: new Center(
+      body: new Theme(
+        data: new ThemeData(
+          primaryColor: widgetPage.mainColor,
+          primaryColorDark: Colors.white,
+        ),
         child: new Column(
           children: <Widget>[noteForm()],
         ),
@@ -150,5 +154,8 @@ class NotePageState extends State<NotePage> {
       // Add new note
       bloc.addNote(newNote);
     }
+
+    // back to main screen
+    Navigator.of(context).pop();
   }
 }

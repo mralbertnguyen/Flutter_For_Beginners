@@ -50,6 +50,33 @@ class LoginPageState extends State<LoginPage> {
     checkIsLogin();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new Scaffold(
+        appBar: AppBar(
+          title: new Text("Login"),
+          backgroundColor: widgetPage.mainColor,
+        ),
+        body: new Center(
+            child: new Theme(
+              data: new ThemeData(
+                primaryColor: widgetPage.mainColor,
+                primaryColorDark: Colors.white,
+              ),
+              child: new Column(
+                children: <Widget>[
+                  widgetPage.customTitleAsLogo("NOTE"),
+                  widgetPage.inputTextField("User name", userNameController, false),
+                  widgetPage.inputTextField("Password: ", passwordController, true),
+                  buttonForm()
+                ],
+              ),
+            )
+        )
+    );
+  }
+
   // handle register new account
   void signInNewAccount() {
     // change to main screen
@@ -142,32 +169,7 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return new Scaffold(
-        appBar: AppBar(
-          title: new Text("Login"),
-          backgroundColor: widgetPage.mainColor,
-        ),
-        body: new Center(
-          child: new Theme(
-          data: new ThemeData(
-            primaryColor: widgetPage.mainColor,
-            primaryColorDark: Colors.white,
-          ),
-          child: new Column(
-            children: <Widget>[
-              widgetPage.customTitleAsLogo("NOTE"),
-              widgetPage.inputTextField("User name", userNameController, false),
-              widgetPage.inputTextField("Password: ", passwordController, true),
-              buttonForm()
-            ],
-          ),
-        )
-        )
-    );
-  }
+
 
   Container buttonForm() {
     return Container(
