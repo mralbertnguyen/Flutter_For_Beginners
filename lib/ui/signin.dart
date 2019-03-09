@@ -65,7 +65,7 @@ class SignInPageSate extends State<SignInPage>{
       margin: const EdgeInsets.only(top: 10.0),
       child: Column(
         children: <Widget>[
-          widgetPage.button("Log in", finishSignIn),
+          widgetPage.button("Sign In", finishSignIn),
           widgetPage.button("Cancel", cancel)
         ],
       ),
