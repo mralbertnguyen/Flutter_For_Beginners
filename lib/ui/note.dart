@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/note_model.dart';
 import '../bloc/databaseBloc.dart';
 import 'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
+import 'package:flutter/services.dart';
 
 void main() => runApp(Note());
 
@@ -50,6 +51,7 @@ class NotePageState extends State<NotePage> {
 
   @override
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return Scaffold(
       // Float button avoid view
@@ -58,15 +60,33 @@ class NotePageState extends State<NotePage> {
         title: Text("Note"),
         backgroundColor: widgetPage.mainColor,
       ),
-      body: Theme(
-        data: ThemeData(
-          primaryColor: widgetPage.mainColor,
-          primaryColorDark: Colors.white,
-        ),
-        child: Column(
-          children: <Widget>[noteForm()],
-        ),
-      ),
+      body: new GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+            print("tap on gesture");
+          },
+          child: new Container(
+            decoration: new BoxDecoration(
+            ),
+
+            child: new Theme(
+              data: ThemeData(
+                primaryColor: widgetPage.mainColor,
+                primaryColorDark: Colors.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  new GestureDetector(
+                    onTap: () {
+                      print("Tap on gesture ");
+                    },
+                    child: noteForm(),
+                  )
+                ],
+              ),
+            ),
+          )),
+
       floatingActionButton: Container(
         width: 200.0,
         height: 200.0,
@@ -121,6 +141,7 @@ class NotePageState extends State<NotePage> {
       String label,
       double height) {
     return Container(
+      decoration: new BoxDecoration(),
       width: 400,
       height: height,
       margin: const EdgeInsets.only(
@@ -145,8 +166,8 @@ class NotePageState extends State<NotePage> {
     );
   }
 
-  bool checkNotNull(String title , String content){
-    if(title.length == 0  || content.length == 0){
+  bool checkNotNull(String title, String content) {
+    if (title.length == 0 || content.length == 0) {
       return false;
     }
     return true;
@@ -156,12 +177,10 @@ class NotePageState extends State<NotePage> {
     // Close keyboard
     FocusScope.of(context).requestFocus(new FocusNode());
 
-
     final String title = titleTxtController.text;
     final String desc = descTxtController.text;
 
-
-    if(checkNotNull(title, desc)){
+    if (checkNotNull(title, desc)) {
       // Get id from note object existed
       if (widget.note != null) {
         print("Update note");
@@ -174,14 +193,11 @@ class NotePageState extends State<NotePage> {
         var newNote = NoteModel(title: title, desc: desc);
         // Add new note
         bloc.addNote(newNote);
-
       }
       // back to main screen
       Navigator.of(context).pop();
-    }else{
+    } else {
       print("Empty title | desciption");
     }
-
-
   }
 }

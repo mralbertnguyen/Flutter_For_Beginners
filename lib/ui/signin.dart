@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/user_model.dart';
 import '../resources/database.dart';
 import '../bloc/databaseBloc.dart';
-import'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
+import 'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
 
-class SignIn extends StatelessWidget{
-
+class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -13,14 +12,13 @@ class SignIn extends StatelessWidget{
   }
 }
 
-class SignInPage extends StatefulWidget{
+class SignInPage extends StatefulWidget {
   SignInPage({Key key}) : super(key: key);
   @override
   SignInPageSate createState() => new SignInPageSate();
 }
 
-class SignInPageSate extends State<SignInPage>{
-
+class SignInPageSate extends State<SignInPage> {
   // Controllers for handle Text field
   TextEditingController usernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
@@ -30,37 +28,42 @@ class SignInPageSate extends State<SignInPage>{
   final bloc = UserBloc();
   final widgetPage = widgetController.WidgetAndFunctionState();
 
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title:  Text("Sign in"),
+        title: Text("Sign in"),
         backgroundColor: widgetPage.mainColor,
       ),
-        body:  Center(
-            child:  Theme(
-              data:  ThemeData(
-                primaryColor: widgetPage.mainColor,
-                primaryColorDark: Colors.white,
-              ),
-              child:  Column(
-                children: <Widget>[
-                  widgetPage.inputTextField("User name", usernameController, false),
-                  widgetPage.inputTextField("Password", passwordController, true),
-                  widgetPage.inputTextField("Retype password", retypePasswordController, true),
-                  buttonForm(context),
-                ],
-              ),
-            )
-        )
+      body: new GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Center(
+            child: Theme(
+          data: ThemeData(
+            primaryColor: widgetPage.mainColor,
+            primaryColorDark: Colors.white,
+          ),
+          child: Column(
+            children: <Widget>[
+              widgetPage.inputTextField("User name", usernameController, false),
+              widgetPage.inputTextField("Password", passwordController, true),
+              widgetPage.inputTextField(
+                  "Retype password", retypePasswordController, true),
+              buttonForm(context),
+            ],
+          ),
+        )),
+      ),
     );
   }
+
   /*
   * Widgets
   * */
-  Widget buttonForm(BuildContext formContext){
+  Widget buttonForm(BuildContext formContext) {
     return Container(
       margin: const EdgeInsets.only(top: 10.0),
       child: Column(
@@ -75,21 +78,23 @@ class SignInPageSate extends State<SignInPage>{
   /*
   * Functions to handle business
   * */
-  finishSignIn(){
+  finishSignIn() {
     // Close keyboard
     FocusScope.of(context).requestFocus(new FocusNode());
     // Get user name and password
     final String _username = usernameController.text;
-    final String _password =  widgetController.WidgetAndFunctionState().generateMd5(passwordController.text);
-    final String retype = widgetController.WidgetAndFunctionState().generateMd5(retypePasswordController.text);
+    final String _password = widgetController.WidgetAndFunctionState()
+        .generateMd5(passwordController.text);
+    final String retype = widgetController.WidgetAndFunctionState()
+        .generateMd5(retypePasswordController.text);
 
-    if(!_checkIsSamePassword(_password, retype)){
+    if (!_checkIsSamePassword(_password, retype)) {
       print("Please check password again");
-      widgetController.WidgetAndFunctionState().customDialog("Error","Please check password again",context);
-    }else{
+      widgetController.WidgetAndFunctionState()
+          .customDialog("Error", "Please check password again", context);
+    } else {
       _handleStorageNewUser(_username, _password);
     }
-
   }
 
   void _handleStorageNewUser(String username, String password) async {
@@ -100,32 +105,31 @@ class SignInPageSate extends State<SignInPage>{
     // null if can't find
     var userExist = await DBProvider.db.getUser(username);
 
-    if(userExist == null){
+    if (userExist == null) {
 //      await DBProvider.db.newUser(object);
-    bloc.addUser(object);
-    // Show snackbar
-    // Back previous screen
-    Navigator.of(context).pop();
-    }else{
-      widgetController.WidgetAndFunctionState().customDialog("Existed", "Existed",context);
+      bloc.addUser(object);
+      // Show snackbar
+      // Back previous screen
+      Navigator.of(context).pop();
+    } else {
+      widgetController.WidgetAndFunctionState()
+          .customDialog("Existed", "Existed", context);
     }
-
   }
 
-  bool _checkIsSamePassword(String password, String retype){
+  bool _checkIsSamePassword(String password, String retype) {
     // Compare password and retype password
-    if(password.compareTo(retype) == 0){
+    if (password.compareTo(retype) == 0) {
       return true;
     }
     return false;
   }
 
-  void cancel(){
+  void cancel() {
     // Close keyboard
     FocusScope.of(context).requestFocus(new FocusNode());
     print("Cancel");
     // Back previous screen
     Navigator.of(context).pop();
   }
-
 }
