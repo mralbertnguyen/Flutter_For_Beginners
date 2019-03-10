@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import '../models/note_model.dart';
 import '../bloc/databaseBloc.dart';
 import '../ui/note.dart';
@@ -18,8 +17,7 @@ class Home extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.listNote}) : super(key: key);
-  List<NoteModel> listNote;
+  HomePage({Key key}) : super(key: key);
   @override
   HomePageState createState() => new HomePageState();
 }
