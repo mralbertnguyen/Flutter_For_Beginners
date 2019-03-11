@@ -25,6 +25,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final bloc = NoteBloc();
   final widgetPage = widgetController.WidgetAndFunctionState();
+
   @override
   void dispose() {
     // TODO: implement dispose
