@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
+import '../bloc/mapBloc.dart';
+
 void main() => runApp(Map());
+
 
 class Map extends StatelessWidget {
   @override
@@ -26,32 +29,24 @@ class MapPage extends StatefulWidget {
 }
 
 class MapPageState extends State<MapPage> {
-  Completer<GoogleMapController> _controller = Completer();
-
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
-
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-  }
+  MapBloc mapBloc = new MapBloc();
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Stack(
-      children: <Widget>[
-        _maps(),
-        Padding(
-
-        ),
-      ],
+    return StreamBuilder(
+      stream: mapBloc.mapStream,
+      builder: (context, snapshot) => _maps()
     );
+
+
   }
 
   Widget _maps() {
     return GoogleMap(
-      onMapCreated: _onMapCreated,
+      onMapCreated: mapBloc.onCreateMap,
       initialCameraPosition: CameraPosition(
-        target: _center,
+        target: mapBloc.centerLatLong,
         zoom: 11.0,
       ),
     );
