@@ -14,11 +14,11 @@ class MapBloc{
 
   // Config google map variables
   Completer<GoogleMapController> mapCompleter = Completer();
-  LatLng centerLatLong = LatLng(45.521563, -122.677433);
+  LatLng centerLatLong ;
 
 
-  var currentLocation;
   var location = new Location();
+  LocationData locationData;
   var permissionLocation;
 
 
@@ -29,18 +29,17 @@ class MapBloc{
       bool hasPer = await location.hasPermission();
 
       if(hasPer){
-         currentLocation = await location.getLocation();
-         print(currentLocation);
+        locationData = await location.getLocation();
+        centerLatLong = LatLng(locationData.latitude, locationData.longitude);
        }else{
         // Request permission
         location.requestPermission();
         print("Has not permission");
        }
     }catch (e) {
-      currentLocation = null;
+      locationData = null;
     }
 
-    print(currentLocation);
   }
 
 

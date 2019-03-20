@@ -33,6 +33,8 @@ class MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get current location when open app
+    mapBloc.getCurrentLocation();
     // TODO: implement build
     return Stack(
       children: <Widget>[
