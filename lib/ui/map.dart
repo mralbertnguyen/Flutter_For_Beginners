@@ -4,32 +4,28 @@ import 'dart:async';
 
 void main() => runApp(Map());
 
-class Map extends StatelessWidget{
+class Map extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return new MaterialApp(
-        home : new Scaffold(
-          appBar: new AppBar(
-            title: new Text("Maps"),
-          ),
-          body: new MapPage(),
-        )
-    );
+        home: new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Maps"),
+      ),
+      body: new MapPage(),
+    ));
   }
 }
 
-
-class MapPage extends StatefulWidget{
+class MapPage extends StatefulWidget {
   MapPage({Key key}) : super(key: key);
 
   @override
   MapPageState createState() => new MapPageState();
-
 }
 
-class MapPageState extends State<MapPage>{
-
+class MapPageState extends State<MapPage> {
   Completer<GoogleMapController> _controller = Completer();
 
   static const LatLng _center = const LatLng(45.521563, -122.677433);
@@ -41,10 +37,17 @@ class MapPageState extends State<MapPage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return _maps() ;
+    return Stack(
+      children: <Widget>[
+        _maps(),
+        Padding(
+
+        ),
+      ],
+    );
   }
 
-  Widget _maps(){
+  Widget _maps() {
     return GoogleMap(
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
@@ -54,4 +57,3 @@ class MapPageState extends State<MapPage>{
     );
   }
 }
-
