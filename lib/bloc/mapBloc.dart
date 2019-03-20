@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
 class MapBloc{
 
   // Create controller
@@ -14,7 +15,8 @@ class MapBloc{
   Completer<GoogleMapController> mapCompleter = Completer();
   LatLng centerLatLong = LatLng(45.521563, -122.677433);
 
-  onCreateMap(GoogleMapController ggMapController) {
+  //
+  onCreatedMap(GoogleMapController ggMapController) {
     mapCompleter.complete(ggMapController);
   }
 
