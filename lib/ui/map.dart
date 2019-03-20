@@ -34,14 +34,14 @@ class MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     // Get current location when open app
-    mapBloc.getCurrentLocation();
+    mapBloc.firstSetupMap();
     // TODO: implement build
     return Stack(
       children: <Widget>[
         _maps(),
         Padding(
           padding: EdgeInsets.all(10.0),
-          child: FloatingActionButton(onPressed: ()=>{mapBloc.getCurrentLocation()}),
+          child: FloatingActionButton(onPressed: () => mapBloc.getCurrentLocation()),
         )
       ],
     );
@@ -52,6 +52,8 @@ class MapPageState extends State<MapPage> {
       StreamBuilder(
           stream: mapBloc.mapStream,
           builder: (context, snapshot) => GoogleMap(
+            onCameraMove: mapBloc.moveCamera,
+            myLocationEnabled: true,
             onMapCreated: mapBloc.onCreatedMap,
             initialCameraPosition: CameraPosition(
               target: mapBloc.centerLatLong,
