@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import '../bloc/mapBloc.dart';
 
+
 void main() => runApp(Map());
 
 
@@ -33,7 +34,15 @@ class MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return _maps();
+    return Stack(
+      children: <Widget>[
+        _maps(),
+        Padding(
+          padding: EdgeInsets.all(10.0),
+          child: FloatingActionButton(onPressed: ()=>{mapBloc.getCurrentLocation()}),
+        )
+      ],
+    );
   }
 
   Widget _maps() {
