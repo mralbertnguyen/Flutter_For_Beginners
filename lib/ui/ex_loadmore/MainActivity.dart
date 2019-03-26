@@ -1,7 +1,7 @@
-import 'package:flutter_app/widgets//ex_loadmore/Example1.dart';
-import 'package:flutter_app/widgets/ex_loadmore/Example2.dart';
-import 'package:flutter_app/widgets/ex_loadmore/Example3.dart';
-import 'package:flutter_app/widgets/ex_loadmore/Example4.dart';
+import 'package:flutter_app/ui//ex_loadmore/Example1.dart';
+import 'package:flutter_app/ui/ex_loadmore/Example2.dart';
+import 'package:flutter_app/ui/ex_loadmore/Example3.dart';
+import 'package:flutter_app/ui/ex_loadmore/Example4.dart';
 import 'package:flutter/material.dart';
 
 class MainActivity extends StatefulWidget {
