@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/user_model.dart';
-import '../resources/database.dart';
-import '../bloc/databaseBloc.dart';
+import '../../resources/database.dart';
+import '../../bloc/databaseBloc.dart';
 import 'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
 
 class SignIn extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/items/item_mainList.dart';
 import 'package:flutter_app/widgets/swipeButton.dart';
 import 'package:flutter_app/customLib/loadmore/LoadMoreCus.dart';
-import 'package:flutter_app/ui/login.dart';
+import 'package:flutter_app/ui/note_app/login.dart';
 import 'package:flutter_app/ui/map.dart';
 import 'package:flutter_app/ui/ex_loadmore/MainActivity.dart';
 
@@ -27,12 +27,10 @@ class MainStateful extends StatefulWidget {
 class MainState extends State<MainStateful> {
   // Data list
   List<String> dataList = [
-    "Helo",
-    "How are you?",
-    "How are you?",
-    "How are you?",
-    "How are you?",
-    "How are you?",
+    "Note APP",
+    "Demo MAP",
+    "Demo Loadmore",
+    "Demo Swipe button",
   ];
 
   int get count => dataList.length;
@@ -46,10 +44,12 @@ class MainState extends State<MainStateful> {
           isFinish: true,
           child: ListView.builder(
               itemCount: count,
-              itemBuilder: (context, index) {
+              itemBuilder: (context,index) {
                 return GestureDetector(
-                  onTap: _onTapList(context, index),
                   child: ItemsMainListOption(dataList[index]),
+                  onTap: (){
+                    onTapList(context, index);
+                  },
                 );
               }),
           onLoadMore: _onLoadMore),
@@ -62,24 +62,26 @@ class MainState extends State<MainStateful> {
 /// 1 - Map
 /// 2 - List load more example
 /// 3 - Swipe button
-_onTapList(_context, _index) {
-  BuildContext myContext = _context;
-  
+  onTapList(_context, _index) {
   switch (_index) {
     case 0:
-      Navigator.push(myContext, MaterialPageRoute(builder: (context) => Login()));
+      Navigator.push(
+          _context, MaterialPageRoute(builder: (context) => Login()));
       break;
     case 1:
-      Navigator.push(myContext, MaterialPageRoute(builder: (context) => Map()));
+      Navigator.push(_context, MaterialPageRoute(builder: (context) => Map()));
       break;
     case 2:
-      Navigator.push(myContext, MaterialPageRoute(builder: (context) => MainActivity()));
+      Navigator.push(
+          _context, MaterialPageRoute(builder: (context) => MainActivity()));
       break;
     case 3:
-      Navigator.push(myContext, MaterialPageRoute(builder: (context) => SwipeDemoApp()));
+      Navigator.push(
+          _context, MaterialPageRoute(builder: (context) => SwipeDemoApp()));
       break;
 
-    default: break;
+    default:
+      break;
   }
 }
 

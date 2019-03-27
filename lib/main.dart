@@ -26,6 +26,7 @@ class AppState extends State<AppStateFul>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
+      debugShowCheckedModeBanner : false,
       home: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),

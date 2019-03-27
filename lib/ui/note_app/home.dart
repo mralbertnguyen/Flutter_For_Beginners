@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/note_model.dart';
-import '../bloc/databaseBloc.dart';
-import '../ui/note.dart';
+import '../../models/note_model.dart';
+import '../../bloc/databaseBloc.dart';
+import 'package:flutter_app/ui/note_app/note.dart';
 import 'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
 
 void main() => runApp(Home());

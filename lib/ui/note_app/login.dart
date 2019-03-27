@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/home.dart';
-import 'package:flutter_app/ui/signin.dart';
+import 'package:flutter_app/ui/note_app/home.dart';
+import 'package:flutter_app/ui/note_app/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../resources/database.dart';
-import '../models/user_model.dart';
+import '../../resources/database.dart';
+import '../../models/user_model.dart';
 import 'package:flutter_app/ui/widgetsAndFunction.dart' as widgetController;
 import 'dart:async';
 

@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_app/ui/signin.dart';
+import 'package:flutter_app/ui/note_app/signin.dart';
 
 void main() {
   testWidgets('Test register new account', (WidgetTester tester) async {

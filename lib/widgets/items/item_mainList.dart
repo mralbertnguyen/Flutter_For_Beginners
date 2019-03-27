@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-
-class ItemsMainListOption extends StatelessWidget{
-
+class ItemsMainListOption extends StatelessWidget {
   String data;
+
   ItemsMainListOption(this.data);
 
   @override
@@ -13,8 +12,14 @@ class ItemsMainListOption extends StatelessWidget{
       color: Colors.green,
       margin: EdgeInsets.all(10),
       child: Container(
-        child: Text(data),
-      ),
+          height: 100,
+          width: 400,
+          child: Center(
+            child: Text(
+              data,
+              textAlign: TextAlign.left,
+            ),
+          )),
     );
   }
 }
