@@ -7,6 +7,8 @@ import 'package:flutter_app/ui/note_app/login.dart';
 import 'package:flutter_app/ui/map.dart';
 import 'package:flutter_app/ui/ex_loadmore/MainActivity.dart';
 import 'package:flutter_app/ui/radialmenu/RadialMenu.dart';
+import 'package:flutter_app/utils/String.dart';
+
 class MainStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,11 @@ class MainStateful extends StatefulWidget {
 class MainState extends State<MainStateful> {
   // Data list
   List<String> dataList = [
-    "Note APP",
-    "Demo MAP",
-    "Demo Loadmore",
-    "Demo Swipe button",
-    "Demo Radial Menu"
+    HEADER_NOTE_APP,
+    HEADER_MAP,
+    HEADER_LOAD_MORE,
+    HEADER_SWIPE_BUTTON,
+    HEADER_RADIAL_MENU
   ];
 
   int get count => dataList.length;
@@ -45,10 +47,10 @@ class MainState extends State<MainStateful> {
           isFinish: true,
           child: ListView.builder(
               itemCount: count,
-              itemBuilder: (context,index) {
+              itemBuilder: (context, index) {
                 return GestureDetector(
                   child: ItemsMainListOption(dataList[index]),
-                  onTap: (){
+                  onTap: () {
                     onTapList(context, index);
                   },
                 );
@@ -63,7 +65,7 @@ class MainState extends State<MainStateful> {
 /// 1 - Map
 /// 2 - List load more example
 /// 3 - Swipe button
-  onTapList(_context, _index) {
+onTapList(_context, _index) {
   switch (_index) {
     case 0:
       Navigator.push(
@@ -80,8 +82,9 @@ class MainState extends State<MainStateful> {
       Navigator.push(
           _context, MaterialPageRoute(builder: (context) => SwipeDemoApp()));
       break;
-    case 4: 
-      Navigator.push(_context, MaterialPageRoute(builder: (context)=>RadialMenuStateless()));
+    case 4:
+      Navigator.push(_context,
+          MaterialPageRoute(builder: (context) => RadialMenuStateless()));
       break;
     default:
       break;
