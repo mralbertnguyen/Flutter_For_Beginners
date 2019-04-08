@@ -8,12 +8,11 @@ void main() => runApp(SwipeDemoApp());
 class SwipeDemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: const Color(0xFFF2BF3F),
-        primaryColorLight: const Color(0xFFF7E0AA),
-      ),
-      home: Scaffold(
+    return 
+      Scaffold(
+        appBar : AppBar(
+          title: Text("Swipe Button"),
+        ),
         body: Align(
           alignment: Alignment(0.0, 0.8),
           child: Padding(
@@ -36,8 +35,7 @@ class SwipeDemoApp extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 

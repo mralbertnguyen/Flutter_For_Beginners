@@ -7,7 +7,6 @@ import 'package:flutter_app/widgets/animatedDemo.dart';
 
 void main() => runApp(Map());
 
-
 class Map extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

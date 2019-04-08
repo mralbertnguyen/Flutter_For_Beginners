@@ -6,7 +6,7 @@ import 'package:flutter_app/customLib/loadmore/LoadMoreCus.dart';
 import 'package:flutter_app/ui/note_app/login.dart';
 import 'package:flutter_app/ui/map.dart';
 import 'package:flutter_app/ui/ex_loadmore/MainActivity.dart';
-
+import 'package:flutter_app/ui/radialmenu/RadialMenu.dart';
 class MainStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,7 @@ class MainState extends State<MainStateful> {
     "Demo MAP",
     "Demo Loadmore",
     "Demo Swipe button",
+    "Demo Radial Menu"
   ];
 
   int get count => dataList.length;
@@ -79,7 +80,9 @@ class MainState extends State<MainStateful> {
       Navigator.push(
           _context, MaterialPageRoute(builder: (context) => SwipeDemoApp()));
       break;
-
+    case 4: 
+      Navigator.push(_context, MaterialPageRoute(builder: (context)=>RadialMenuStateless()));
+      break;
     default:
       break;
   }
